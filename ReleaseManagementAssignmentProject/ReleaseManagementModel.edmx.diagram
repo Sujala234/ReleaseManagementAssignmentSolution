@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1a1d8f5e0997487388498d04503821ba" Name="Diagram1" ZoomLevel="88">
+        <EntityTypeShape EntityType="ReleaseManagementModel.Developer" Width="1.5" PointX="6.375" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReleaseManagementModel.DevModule" Width="2.125" PointX="9.875" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReleaseManagementModel.Login" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReleaseManagementModel.Manager" Width="1.5" PointX="9.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReleaseManagementModel.project" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReleaseManagementModel.Team" Width="1.5" PointX="3.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReleaseManagementModel.TeamLead" Width="1.5" PointX="3.375" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReleaseManagementModel.Tester" Width="1.5" PointX="6.75" PointY="3.625" IsExpanded="true" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__Developer__teami__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__DevModule__devid__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__DevModule__mid__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__DevModule__pid__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__DevModule__teaml__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__Manager__pid__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__TeamLead__manage__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__Team__pid__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__TeamLead__teamid__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="ReleaseManagementModel.FK__Tester__teamid__412EB0B6" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,806 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ReleaseManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="DevId" />
+          </Key>
+          <Property Name="DevId" Type="int" Nullable="false" />
+          <Property Name="DevName" Type="varchar" MaxLength="50" />
+          <Property Name="Githublink" Type="varchar" MaxLength="100" />
+          <Property Name="teamid" Type="int" />
+        </EntityType>
+        <EntityType Name="DevModule">
+          <Key>
+            <PropertyRef Name="DevModuleid" />
+          </Key>
+          <Property Name="DevModuleid" Type="int" Nullable="false" />
+          <Property Name="pid" Type="int" />
+          <Property Name="Modulename" Type="varchar" MaxLength="50" />
+          <Property Name="devstatus" Type="int" />
+          <Property Name="devid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="teamleadid" Type="int" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="role" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="Mid" />
+          </Key>
+          <Property Name="Mid" Type="int" Nullable="false" />
+          <Property Name="Mname" Type="varchar" MaxLength="50" />
+          <Property Name="pid" Type="int" />
+        </EntityType>
+        <EntityType Name="project">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="int" Nullable="false" />
+          <Property Name="pname" Type="varchar" MaxLength="50" />
+          <Property Name="pdesc" Type="varchar" MaxLength="50" />
+          <Property Name="preq" Type="varchar" MaxLength="50" />
+          <Property Name="pstatus" Type="int" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="teamid" />
+          </Key>
+          <Property Name="teamid" Type="int" Nullable="false" />
+          <Property Name="teamname" Type="varchar" MaxLength="50" />
+          <Property Name="pid" Type="int" />
+          <Property Name="teamLeadId" Type="int" />
+        </EntityType>
+        <EntityType Name="TeamLead">
+          <Key>
+            <PropertyRef Name="teamleadid" />
+          </Key>
+          <Property Name="teamleadid" Type="int" Nullable="false" />
+          <Property Name="teamid" Type="int" />
+          <Property Name="managerid" Type="int" />
+        </EntityType>
+        <EntityType Name="Tester">
+          <Key>
+            <PropertyRef Name="tid" />
+          </Key>
+          <Property Name="tid" Type="int" Nullable="false" />
+          <Property Name="tname" Type="varchar" MaxLength="50" />
+          <Property Name="tstatus" Type="int" />
+          <Property Name="teamid" Type="int" />
+        </EntityType>
+        <Association Name="FK__Developer__teami__3C69FB99">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Developer" Type="Self.Developer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="teamid" />
+            </Principal>
+            <Dependent Role="Developer">
+              <PropertyRef Name="teamid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DevModule__devid__5812160E">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="0..1" />
+          <End Role="DevModule" Type="Self.DevModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DevId" />
+            </Principal>
+            <Dependent Role="DevModule">
+              <PropertyRef Name="devid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DevModule__mid__59063A47">
+          <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
+          <End Role="DevModule" Type="Self.DevModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manager">
+              <PropertyRef Name="Mid" />
+            </Principal>
+            <Dependent Role="DevModule">
+              <PropertyRef Name="mid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DevModule__pid__571DF1D5">
+          <End Role="project" Type="Self.project" Multiplicity="0..1" />
+          <End Role="DevModule" Type="Self.DevModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="DevModule">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DevModule__teaml__59FA5E80">
+          <End Role="TeamLead" Type="Self.TeamLead" Multiplicity="0..1" />
+          <End Role="DevModule" Type="Self.DevModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TeamLead">
+              <PropertyRef Name="teamleadid" />
+            </Principal>
+            <Dependent Role="DevModule">
+              <PropertyRef Name="teamleadid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Manager__pid__276EDEB3">
+          <End Role="project" Type="Self.project" Multiplicity="0..1" />
+          <End Role="Manager" Type="Self.Manager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="Manager">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Team__pid__2E1BDC42">
+          <End Role="project" Type="Self.project" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TeamLead__manage__31EC6D26">
+          <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
+          <End Role="TeamLead" Type="Self.TeamLead" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manager">
+              <PropertyRef Name="Mid" />
+            </Principal>
+            <Dependent Role="TeamLead">
+              <PropertyRef Name="managerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TeamLead__teamid__30F848ED">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="TeamLead" Type="Self.TeamLead" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="teamid" />
+            </Principal>
+            <Dependent Role="TeamLead">
+              <PropertyRef Name="teamid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tester__teamid__4316F928">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Tester" Type="Self.Tester" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="teamid" />
+            </Principal>
+            <Dependent Role="Tester">
+              <PropertyRef Name="teamid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="addDeveloper" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="devid" Type="int" Mode="In" />
+          <Parameter Name="devname" Type="varchar" Mode="In" />
+          <Parameter Name="githublink" Type="varchar" Mode="In" />
+          <Parameter Name="teamid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="addTester" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tid" Type="int" Mode="In" />
+          <Parameter Name="tname" Type="varchar" Mode="In" />
+          <Parameter Name="tstaus" Type="int" Mode="In" />
+          <Parameter Name="teamid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="assignProjectToTL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="teamid" Type="int" Mode="In" />
+          <Parameter Name="teamname" Type="varchar" Mode="In" />
+          <Parameter Name="pid" Type="int" Mode="In" />
+          <Parameter Name="teamleadid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="I_Developer_I" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DEVID" Type="int" Mode="In" />
+          <Parameter Name="DName" Type="varchar" Mode="In" />
+          <Parameter Name="Githublink" Type="varchar" Mode="In" />
+          <Parameter Name="Tid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="I_Developer_p" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DEVID" Type="int" Mode="In" />
+          <Parameter Name="DName" Type="varchar" Mode="In" />
+          <Parameter Name="Githublink" Type="varchar" Mode="In" />
+          <Parameter Name="Tid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="I_Manager_p" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mid" Type="int" Mode="In" />
+          <Parameter Name="mname" Type="varchar" Mode="In" />
+          <Parameter Name="pid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="I_Team" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Tid" Type="int" Mode="In" />
+          <Parameter Name="TName" Type="varchar" Mode="In" />
+          <Parameter Name="Pid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="I_Team_I" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Tid" Type="int" Mode="In" />
+          <Parameter Name="TName" Type="varchar" Mode="In" />
+          <Parameter Name="Pid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="I_TeamLead" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="teamleadId" Type="int" Mode="In" />
+          <Parameter Name="teamId" Type="int" Mode="In" />
+          <Parameter Name="managerId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertLoginUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uname" Type="varchar" Mode="In" />
+          <Parameter Name="upwd" Type="varchar" Mode="In" />
+          <Parameter Name="role" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="InsertProjectProd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pid" Type="int" Mode="In" />
+          <Parameter Name="pname" Type="varchar" Mode="In" />
+          <Parameter Name="pdesc" Type="varchar" Mode="In" />
+          <Parameter Name="preq" Type="varchar" Mode="In" />
+          <Parameter Name="pstatus" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Proc_CheckLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="un" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="S_TeamLead" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="mid" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ReleaseManagementModelStoreContainer">
+          <EntitySet Name="Developer" EntityType="Self.Developer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DevModule" EntityType="Self.DevModule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manager" EntityType="Self.Manager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="project" EntityType="Self.project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TeamLead" EntityType="Self.TeamLead" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tester" EntityType="Self.Tester" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Developer__teami__3C69FB99" Association="Self.FK__Developer__teami__3C69FB99">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Developer" EntitySet="Developer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DevModule__devid__5812160E" Association="Self.FK__DevModule__devid__5812160E">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="DevModule" EntitySet="DevModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DevModule__mid__59063A47" Association="Self.FK__DevModule__mid__59063A47">
+            <End Role="Manager" EntitySet="Manager" />
+            <End Role="DevModule" EntitySet="DevModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DevModule__pid__571DF1D5" Association="Self.FK__DevModule__pid__571DF1D5">
+            <End Role="project" EntitySet="project" />
+            <End Role="DevModule" EntitySet="DevModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DevModule__teaml__59FA5E80" Association="Self.FK__DevModule__teaml__59FA5E80">
+            <End Role="TeamLead" EntitySet="TeamLead" />
+            <End Role="DevModule" EntitySet="DevModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Manager__pid__276EDEB3" Association="Self.FK__Manager__pid__276EDEB3">
+            <End Role="project" EntitySet="project" />
+            <End Role="Manager" EntitySet="Manager" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Team__pid__2E1BDC42" Association="Self.FK__Team__pid__2E1BDC42">
+            <End Role="project" EntitySet="project" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TeamLead__manage__31EC6D26" Association="Self.FK__TeamLead__manage__31EC6D26">
+            <End Role="Manager" EntitySet="Manager" />
+            <End Role="TeamLead" EntitySet="TeamLead" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TeamLead__teamid__30F848ED" Association="Self.FK__TeamLead__teamid__30F848ED">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="TeamLead" EntitySet="TeamLead" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tester__teamid__4316F928" Association="Self.FK__Tester__teamid__4316F928">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Tester" EntitySet="Tester" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ReleaseManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="DevId" />
+          </Key>
+          <Property Name="DevId" Type="Int32" Nullable="false" />
+          <Property Name="DevName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Githublink" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="teamid" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="Self.FK__Developer__teami__3A81B327" FromRole="Developer" ToRole="Team" />
+          <NavigationProperty Name="DevModules" Relationship="Self.FK__DevModule__devid__44FF419A" FromRole="Developer" ToRole="DevModule" />
+        </EntityType>
+        <EntityType Name="DevModule">
+          <Key>
+            <PropertyRef Name="DevModuleid" />
+          </Key>
+          <Property Name="DevModuleid" Type="Int32" Nullable="false" />
+          <Property Name="pid" Type="Int32" />
+          <Property Name="Modulename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="devstatus" Type="Int32" />
+          <Property Name="devid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="teamleadid" Type="Int32" />
+          <NavigationProperty Name="Developer" Relationship="Self.FK__DevModule__devid__44FF419A" FromRole="DevModule" ToRole="Developer" />
+          <NavigationProperty Name="Manager" Relationship="Self.FK__DevModule__mid__45F365D3" FromRole="DevModule" ToRole="Manager" />
+          <NavigationProperty Name="project" Relationship="Self.FK__DevModule__pid__440B1D61" FromRole="DevModule" ToRole="project" />
+          <NavigationProperty Name="TeamLead" Relationship="Self.FK__DevModule__teaml__46E78A0C" FromRole="DevModule" ToRole="TeamLead" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpectedDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="Mid" />
+          </Key>
+          <Property Name="Mid" Type="Int32" Nullable="false" />
+          <Property Name="Mname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pid" Type="Int32" />
+          <NavigationProperty Name="DevModules" Relationship="Self.FK__DevModule__mid__45F365D3" FromRole="Manager" ToRole="DevModule" />
+          <NavigationProperty Name="project" Relationship="Self.FK__Manager__pid__2A4B4B5E" FromRole="Manager" ToRole="project" />
+          <NavigationProperty Name="TeamLeads" Relationship="Self.FK__TeamLead__manage__3E52440B" FromRole="Manager" ToRole="TeamLead" />
+        </EntityType>
+        <EntityType Name="project">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="Int32" Nullable="false" />
+          <Property Name="pname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pdesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="preq" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pstatus" Type="Int32" />
+          <NavigationProperty Name="DevModules" Relationship="Self.FK__DevModule__pid__440B1D61" FromRole="project" ToRole="DevModule" />
+          <NavigationProperty Name="Managers" Relationship="Self.FK__Manager__pid__2A4B4B5E" FromRole="project" ToRole="Manager" />
+          <NavigationProperty Name="Teams" Relationship="Self.FK__Team__pid__37A5467C" FromRole="project" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="teamid" />
+          </Key>
+          <Property Name="teamid" Type="Int32" Nullable="false" />
+          <Property Name="teamname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pid" Type="Int32" />
+          <NavigationProperty Name="Developers" Relationship="Self.FK__Developer__teami__3A81B327" FromRole="Team" ToRole="Developer" />
+          <NavigationProperty Name="project" Relationship="Self.FK__Team__pid__37A5467C" FromRole="Team" ToRole="project" />
+          <NavigationProperty Name="TeamLeads" Relationship="Self.FK__TeamLead__teamid__3D5E1FD2" FromRole="Team" ToRole="TeamLead" />
+          <NavigationProperty Name="Testers" Relationship="Self.FK__Tester__teamid__412EB0B6" FromRole="Team" ToRole="Tester" />
+          <Property Name="teamLeadId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TeamLead">
+          <Key>
+            <PropertyRef Name="teamleadid" />
+          </Key>
+          <Property Name="teamleadid" Type="Int32" Nullable="false" />
+          <Property Name="teamid" Type="Int32" />
+          <Property Name="managerid" Type="Int32" />
+          <NavigationProperty Name="DevModules" Relationship="Self.FK__DevModule__teaml__46E78A0C" FromRole="TeamLead" ToRole="DevModule" />
+          <NavigationProperty Name="Manager" Relationship="Self.FK__TeamLead__manage__3E52440B" FromRole="TeamLead" ToRole="Manager" />
+          <NavigationProperty Name="Team" Relationship="Self.FK__TeamLead__teamid__3D5E1FD2" FromRole="TeamLead" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Tester">
+          <Key>
+            <PropertyRef Name="tid" />
+          </Key>
+          <Property Name="tid" Type="Int32" Nullable="false" />
+          <Property Name="tname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tstatus" Type="Int32" />
+          <Property Name="teamid" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="Self.FK__Tester__teamid__412EB0B6" FromRole="Tester" ToRole="Team" />
+        </EntityType>
+        <Association Name="FK__Developer__teami__3A81B327">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Developer" Type="Self.Developer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="teamid" />
+            </Principal>
+            <Dependent Role="Developer">
+              <PropertyRef Name="teamid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DevModule__devid__44FF419A">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="0..1" />
+          <End Role="DevModule" Type="Self.DevModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DevId" />
+            </Principal>
+            <Dependent Role="DevModule">
+              <PropertyRef Name="devid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DevModule__mid__45F365D3">
+          <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
+          <End Role="DevModule" Type="Self.DevModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manager">
+              <PropertyRef Name="Mid" />
+            </Principal>
+            <Dependent Role="DevModule">
+              <PropertyRef Name="mid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DevModule__pid__440B1D61">
+          <End Role="project" Type="Self.project" Multiplicity="0..1" />
+          <End Role="DevModule" Type="Self.DevModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="DevModule">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DevModule__teaml__46E78A0C">
+          <End Role="TeamLead" Type="Self.TeamLead" Multiplicity="0..1" />
+          <End Role="DevModule" Type="Self.DevModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TeamLead">
+              <PropertyRef Name="teamleadid" />
+            </Principal>
+            <Dependent Role="DevModule">
+              <PropertyRef Name="teamleadid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Manager__pid__2A4B4B5E">
+          <End Role="project" Type="Self.project" Multiplicity="0..1" />
+          <End Role="Manager" Type="Self.Manager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="Manager">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TeamLead__manage__3E52440B">
+          <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
+          <End Role="TeamLead" Type="Self.TeamLead" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manager">
+              <PropertyRef Name="Mid" />
+            </Principal>
+            <Dependent Role="TeamLead">
+              <PropertyRef Name="managerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Team__pid__37A5467C">
+          <End Role="project" Type="Self.project" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="project">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TeamLead__teamid__3D5E1FD2">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="TeamLead" Type="Self.TeamLead" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="teamid" />
+            </Principal>
+            <Dependent Role="TeamLead">
+              <PropertyRef Name="teamid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tester__teamid__412EB0B6">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Tester" Type="Self.Tester" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="teamid" />
+            </Principal>
+            <Dependent Role="Tester">
+              <PropertyRef Name="teamid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReleaseManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Developers" EntityType="Self.Developer" />
+          <EntitySet Name="DevModules" EntityType="Self.DevModule" />
+          <EntitySet Name="Logins" EntityType="Self.Login" />
+          <EntitySet Name="Managers" EntityType="Self.Manager" />
+          <EntitySet Name="projects" EntityType="Self.project" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <EntitySet Name="TeamLeads" EntityType="Self.TeamLead" />
+          <EntitySet Name="Testers" EntityType="Self.Tester" />
+          <AssociationSet Name="FK__Developer__teami__3A81B327" Association="Self.FK__Developer__teami__3A81B327">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Developer" EntitySet="Developers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DevModule__devid__44FF419A" Association="Self.FK__DevModule__devid__44FF419A">
+            <End Role="Developer" EntitySet="Developers" />
+            <End Role="DevModule" EntitySet="DevModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DevModule__mid__45F365D3" Association="Self.FK__DevModule__mid__45F365D3">
+            <End Role="Manager" EntitySet="Managers" />
+            <End Role="DevModule" EntitySet="DevModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DevModule__pid__440B1D61" Association="Self.FK__DevModule__pid__440B1D61">
+            <End Role="project" EntitySet="projects" />
+            <End Role="DevModule" EntitySet="DevModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DevModule__teaml__46E78A0C" Association="Self.FK__DevModule__teaml__46E78A0C">
+            <End Role="TeamLead" EntitySet="TeamLeads" />
+            <End Role="DevModule" EntitySet="DevModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Manager__pid__2A4B4B5E" Association="Self.FK__Manager__pid__2A4B4B5E">
+            <End Role="project" EntitySet="projects" />
+            <End Role="Manager" EntitySet="Managers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TeamLead__manage__3E52440B" Association="Self.FK__TeamLead__manage__3E52440B">
+            <End Role="Manager" EntitySet="Managers" />
+            <End Role="TeamLead" EntitySet="TeamLeads" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Team__pid__37A5467C" Association="Self.FK__Team__pid__37A5467C">
+            <End Role="project" EntitySet="projects" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TeamLead__teamid__3D5E1FD2" Association="Self.FK__TeamLead__teamid__3D5E1FD2">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="TeamLead" EntitySet="TeamLeads" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tester__teamid__412EB0B6" Association="Self.FK__Tester__teamid__412EB0B6">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Tester" EntitySet="Testers" />
+          </AssociationSet>
+          <FunctionImport Name="Proc_CheckLogin" ReturnType="Collection(ReleaseManagementModel.Proc_CheckLogin_Result)">
+            <Parameter Name="un" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertProjectProd">
+            <Parameter Name="pid" Mode="In" Type="Int32" />
+            <Parameter Name="pname" Mode="In" Type="String" />
+            <Parameter Name="pdesc" Mode="In" Type="String" />
+            <Parameter Name="preq" Mode="In" Type="String" />
+            <Parameter Name="pstatus" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="assignProjectToTL">
+            <Parameter Name="teamid" Mode="In" Type="Int32" />
+            <Parameter Name="teamname" Mode="In" Type="String" />
+            <Parameter Name="pid" Mode="In" Type="Int32" />
+            <Parameter Name="teamleadid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="addDeveloper">
+            <Parameter Name="devid" Mode="In" Type="Int32" />
+            <Parameter Name="devname" Mode="In" Type="String" />
+            <Parameter Name="githublink" Mode="In" Type="String" />
+            <Parameter Name="teamid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="addTester">
+            <Parameter Name="tid" Mode="In" Type="Int32" />
+            <Parameter Name="tname" Mode="In" Type="String" />
+            <Parameter Name="tstaus" Mode="In" Type="Int32" />
+            <Parameter Name="teamid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="I_Developer_I">
+            <Parameter Name="DEVID" Mode="In" Type="Int32" />
+            <Parameter Name="DName" Mode="In" Type="String" />
+            <Parameter Name="Githublink" Mode="In" Type="String" />
+            <Parameter Name="Tid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="I_Developer_p">
+            <Parameter Name="DEVID" Mode="In" Type="Int32" />
+            <Parameter Name="DName" Mode="In" Type="String" />
+            <Parameter Name="Githublink" Mode="In" Type="String" />
+            <Parameter Name="Tid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="I_Manager_p">
+            <Parameter Name="mid" Mode="In" Type="Int32" />
+            <Parameter Name="mname" Mode="In" Type="String" />
+            <Parameter Name="pid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="I_Team">
+            <Parameter Name="Tid" Mode="In" Type="Int32" />
+            <Parameter Name="TName" Mode="In" Type="String" />
+            <Parameter Name="Pid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="I_Team_I">
+            <Parameter Name="Tid" Mode="In" Type="Int32" />
+            <Parameter Name="TName" Mode="In" Type="String" />
+            <Parameter Name="Pid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="I_TeamLead">
+            <Parameter Name="teamleadId" Mode="In" Type="Int32" />
+            <Parameter Name="teamId" Mode="In" Type="Int32" />
+            <Parameter Name="managerId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertLoginUser">
+            <Parameter Name="uname" Mode="In" Type="String" />
+            <Parameter Name="upwd" Mode="In" Type="String" />
+            <Parameter Name="role" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="S_TeamLead" ReturnType="Collection(ReleaseManagementModel.S_TeamLead_Result)">
+            <Parameter Name="mid" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="Proc_CheckLogin_Result">
+          <Property Type="String" Name="username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="role" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="S_TeamLead_Result">
+          <Property Type="Int32" Name="teamleadid" Nullable="false" />
+          <Property Type="Int32" Name="teamid" Nullable="true" />
+          <Property Type="Int32" Name="managerid" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ReleaseManagementModelStoreContainer" CdmEntityContainer="ReleaseManagementEntities">
+          <EntitySetMapping Name="Developers">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.Developer">
+              <MappingFragment StoreEntitySet="Developer">
+                <ScalarProperty Name="DevId" ColumnName="DevId" />
+                <ScalarProperty Name="DevName" ColumnName="DevName" />
+                <ScalarProperty Name="Githublink" ColumnName="Githublink" />
+                <ScalarProperty Name="teamid" ColumnName="teamid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DevModules">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.DevModule">
+              <MappingFragment StoreEntitySet="DevModule">
+                <ScalarProperty Name="DevModuleid" ColumnName="DevModuleid" />
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="Modulename" ColumnName="Modulename" />
+                <ScalarProperty Name="devstatus" ColumnName="devstatus" />
+                <ScalarProperty Name="devid" ColumnName="devid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="teamleadid" ColumnName="teamleadid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.Login">
+              <MappingFragment StoreEntitySet="Login">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Managers">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.Manager">
+              <MappingFragment StoreEntitySet="Manager">
+                <ScalarProperty Name="Mid" ColumnName="Mid" />
+                <ScalarProperty Name="Mname" ColumnName="Mname" />
+                <ScalarProperty Name="pid" ColumnName="pid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="projects">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.project">
+              <MappingFragment StoreEntitySet="project">
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="pname" ColumnName="pname" />
+                <ScalarProperty Name="pdesc" ColumnName="pdesc" />
+                <ScalarProperty Name="preq" ColumnName="preq" />
+                <ScalarProperty Name="pstatus" ColumnName="pstatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="teamLeadId" ColumnName="teamLeadId" />
+                <ScalarProperty Name="teamid" ColumnName="teamid" />
+                <ScalarProperty Name="teamname" ColumnName="teamname" />
+                <ScalarProperty Name="pid" ColumnName="pid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamLeads">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.TeamLead">
+              <MappingFragment StoreEntitySet="TeamLead">
+                <ScalarProperty Name="teamleadid" ColumnName="teamleadid" />
+                <ScalarProperty Name="teamid" ColumnName="teamid" />
+                <ScalarProperty Name="managerid" ColumnName="managerid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Testers">
+            <EntityTypeMapping TypeName="ReleaseManagementModel.Tester">
+              <MappingFragment StoreEntitySet="Tester">
+                <ScalarProperty Name="tid" ColumnName="tid" />
+                <ScalarProperty Name="tname" ColumnName="tname" />
+                <ScalarProperty Name="tstatus" ColumnName="tstatus" />
+                <ScalarProperty Name="teamid" ColumnName="teamid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Proc_CheckLogin" FunctionName="ReleaseManagementModel.Store.Proc_CheckLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ReleaseManagementModel.Proc_CheckLogin_Result">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertProjectProd" FunctionName="ReleaseManagementModel.Store.InsertProjectProd" />
+          <FunctionImportMapping FunctionImportName="assignProjectToTL" FunctionName="ReleaseManagementModel.Store.assignProjectToTL" />
+          <FunctionImportMapping FunctionImportName="addDeveloper" FunctionName="ReleaseManagementModel.Store.addDeveloper" />
+          <FunctionImportMapping FunctionImportName="addTester" FunctionName="ReleaseManagementModel.Store.addTester" />
+          <FunctionImportMapping FunctionImportName="I_Developer_I" FunctionName="ReleaseManagementModel.Store.I_Developer_I" />
+          <FunctionImportMapping FunctionImportName="I_Developer_p" FunctionName="ReleaseManagementModel.Store.I_Developer_p" />
+          <FunctionImportMapping FunctionImportName="I_Manager_p" FunctionName="ReleaseManagementModel.Store.I_Manager_p" />
+          <FunctionImportMapping FunctionImportName="I_Team" FunctionName="ReleaseManagementModel.Store.I_Team" />
+          <FunctionImportMapping FunctionImportName="I_Team_I" FunctionName="ReleaseManagementModel.Store.I_Team_I" />
+          <FunctionImportMapping FunctionImportName="I_TeamLead" FunctionName="ReleaseManagementModel.Store.I_TeamLead" />
+          <FunctionImportMapping FunctionImportName="InsertLoginUser" FunctionName="ReleaseManagementModel.Store.InsertLoginUser" />
+          <FunctionImportMapping FunctionImportName="S_TeamLead" FunctionName="ReleaseManagementModel.Store.S_TeamLead">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ReleaseManagementModel.S_TeamLead_Result">
+                <ScalarProperty Name="teamleadid" ColumnName="teamleadid" />
+                <ScalarProperty Name="teamid" ColumnName="teamid" />
+                <ScalarProperty Name="managerid" ColumnName="managerid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

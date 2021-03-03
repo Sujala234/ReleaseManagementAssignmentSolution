@@ -1,0 +1,43 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ManagerPage.master.cs" Inherits="ReleaseManagementAssignmentProject.ManagerPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <style>
+body {
+  background-color: lightslategray;
+}
+
+h1 {
+  color: Black;
+  text-align: center;
+}
+
+
+</style>
+    <form id="form1" runat="server">
+        <h1> Welcome to Manager Page</h1>
+        <h3>Please select an option</h3>
+        <asp:Menu ID="Menu1" runat="server">
+            <Items>
+                <asp:MenuItem NavigateUrl="~/ManagerAddProject.aspx" Text="Add Project" Value="Add Project"></asp:MenuItem>
+                <asp:MenuItem NavigateUrl="~/AddTeamleadAndAssignProject.aspx" Text="Add a TeamLead and Assign Project" Value="Add a TeamLead and Assign Project"></asp:MenuItem>
+                <asp:MenuItem NavigateUrl="~/ManagerViewTeamleads.aspx" Text="View Teamleads" Value="View Teamleads"></asp:MenuItem>
+                <asp:MenuItem NavigateUrl="~/ManagerViewAllProjects.aspx" Text="View All Projects" Value="View All Projects"></asp:MenuItem>
+                <asp:MenuItem NavigateUrl="~/ManagerAddDeveloper.aspx" Text="Add a Developer" Value="Add a Developer"></asp:MenuItem>
+                <asp:MenuItem NavigateUrl="~/ManagerAddTester.aspx" Text="Add a Tester" Value="Add a Tester"></asp:MenuItem>
+            </Items>
+        </asp:Menu>
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
